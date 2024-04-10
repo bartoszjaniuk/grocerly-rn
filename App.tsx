@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+
+import { StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { AppProviders } from "./providers/AppProviders";
+import { Screens } from "./screens/Screens";
+import { jwtAsyncStorage } from "./service/jwtAsyncStorage";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+	// useEffect(() => {
+	// 	const clear = async () => await jwtAsyncStorage.removeItem("ACCESS_TOKEN");
+	// 	clear();
+	// }, []);
+
+	return (
+		<>
+			<StatusBar style="auto" />
+			<AppProviders>
+				<Screens />
+			</AppProviders>
+		</>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });
