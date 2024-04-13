@@ -1,22 +1,27 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { View, Text, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 import { AddArticlesToListScreen } from "./screens/AddArticlesToList";
 import { UserListsScreen } from "./screens/UserListsScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { CreateListScreen } from "./screens/createListScreen/CreateListScreen";
+import { SingleList } from "./screens/singleList/SingleList";
 
 export type ListsTabParamList = {
 	home: undefined;
 	create: undefined;
 	addArticles: undefined;
+	list: {
+		id: string;
+	};
 };
 
 const Stack = createStackNavigator<ListsTabParamList>();
 
 export const UserNavigationList = () => {
 	const navigation = useNavigation<NavigationProp<ListsTabParamList>>();
+
 	return (
 		<Stack.Navigator>
 			<Stack.Screen
@@ -50,6 +55,11 @@ export const UserNavigationList = () => {
 				name="create"
 				component={CreateListScreen}
 				options={{ title: "Tworzenie listy" }}
+			/>
+			<Stack.Screen
+				name="list"
+				component={SingleList}
+				options={{ title: "Lista" }}
 			/>
 			{/* TODO: NAVIAGTION */}
 			<Stack.Screen name="addArticles" component={AddArticlesToListScreen} />

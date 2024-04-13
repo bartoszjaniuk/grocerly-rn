@@ -12,22 +12,30 @@ type AuthContextType =
 	| {
 			accessToken?: string;
 			onAuthenticate: (token: string) => void;
+			isAuthenticated: boolean;
 	  }
 	| undefined;
 
 export const AuthContext = createContext<AuthContextType>(undefined);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
+		setIsAuthenticated(true);
 		const fetchToken = async () => {
-			const token: string | undefined | null = await jwtAsyncStorage.getItem(
-				"ACCESS_TOKEN",
-			);
-			if (token) setAccessToken(token);
+			try {
+				const token: string | undefined | null = await jwtAsyncStorage.getItem(
+					"ACCESS_TOKEN",
+				);
+				if (token) setAccessToken(token);
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setIsAuthenticated(false);
+			}
 		};
-
 		fetchToken();
 	}, []);
 
@@ -38,6 +46,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
 	const value = useMemo(
 		() => ({
+			isAuthenticated,
 			accessToken,
 			onAuthenticate,
 		}),

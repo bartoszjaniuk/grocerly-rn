@@ -30,3 +30,5 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 });
+// user@user.com
+// password
