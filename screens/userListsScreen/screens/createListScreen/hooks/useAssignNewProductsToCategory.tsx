@@ -2,14 +2,14 @@ import { useState } from "react";
 
 type AssignProductToCategory = {
 	title: string;
-	category: string;
+	categoryId: string;
 };
 
 function groupItemsByCategory(
 	items: AssignProductToCategory[],
 ): Record<string, string[]> {
 	return items.reduce((acc, item) => {
-		const key = item.category;
+		const key = item.categoryId;
 		if (!acc[key]) {
 			acc[key] = [];
 		}

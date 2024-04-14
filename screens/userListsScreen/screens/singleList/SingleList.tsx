@@ -15,6 +15,7 @@ export const SingleList = ({ navigation, route }: Props) => {
 	const { data, error, isLoading } = useSingleList(groceryListId);
 	const { socket } = useWebSocket();
 	useJoinToList(socket, groceryListId);
+
 	const articles = useArticles(socket);
 
 	const onSwipeRight = (articleId: string) =>

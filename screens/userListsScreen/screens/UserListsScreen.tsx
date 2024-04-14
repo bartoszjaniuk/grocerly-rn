@@ -10,14 +10,17 @@ import { useLists } from "../hooks/ws/useLists";
 export const UserListsScreen = () => {
 	const { socket } = useWebSocket();
 	const lists = useLists(socket);
-	console.log("lists", { lists });
 
+	// TODO: GET RID OF THAT AND ADD LOADING INTO WS
 	const { data, isLoading } = useFetchUserLists();
-	// console.log("DATA", { data });
 
 	const navigation = useNavigation<NavigationProp<ListsTabParamList>>();
+
 	const navigateToSingleList = (id: string) =>
 		navigation.navigate("list", { id });
+
+	const onSwipeRight = (groceryListId: string) =>
+		socket?.emit("removeList", groceryListId);
 
 	if (isLoading)
 		return (
@@ -39,11 +42,13 @@ export const UserListsScreen = () => {
 				data={lists}
 				keyExtractor={({ id }) => id}
 				renderItem={({ item: { articles, name, id } }) => (
-					<CustomSwipeable>
+					<CustomSwipeable
+						swipeableOpen={{ onSwipeRight: () => onSwipeRight(id) }}
+					>
 						<Pressable onPress={() => navigateToSingleList(id)}>
 							<View style={styles.wrapper}>
 								<Text style={styles.listTitle}>{name}</Text>
-								<Text>Liczba artykułów: {articles.length}</Text>
+								<Text>Liczba artykułów: {articles?.length}</Text>
 							</View>
 						</Pressable>
 					</CustomSwipeable>

@@ -22,6 +22,17 @@ export type GroceryList = {
 	articles: Article[];
 };
 
+export type CreateGroceryListPayload = {
+	name: string;
+	articles: { name: string; categoryId: string }[];
+};
+
+export type CreateGroceryListResponse = {
+	id: string;
+	userId: string;
+	groceryListId: string;
+};
+
 const getUserLists = async (): Promise<GetUserListsResponse[]> => {
 	return await api.get(`${API_URL}/grocery`);
 };
@@ -30,4 +41,14 @@ const getListById = async (id: string): Promise<GroceryList> => {
 	return await api.get(`${API_URL}/grocery/${id}`);
 };
 
-export const groceryEndpoints = { getUserLists, getListById };
+const createGroceryList = async (
+	payload: CreateGroceryListPayload,
+): Promise<CreateGroceryListResponse> => {
+	return await api.post(`${API_URL}/grocery`, payload);
+};
+
+export const groceryEndpoints = {
+	getUserLists,
+	getListById,
+	createGroceryList,
+};

@@ -15,7 +15,6 @@ export const useSingleList = (listId: string) => {
 			} catch (error) {
 				console.log(error);
 				setError(error);
-				console.log({ error });
 			} finally {
 				setIsLoading(false);
 			}

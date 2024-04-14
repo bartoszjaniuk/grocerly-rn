@@ -11,6 +11,10 @@ export const useLists = (socket: Socket | null) => {
 
 	React.useEffect(() => {
 		if (socket) socket.emit("getUserLists");
+
+		return () => {
+			setLists([]);
+		};
 	}, [socket]);
 
 	React.useEffect(() => {
@@ -53,7 +57,33 @@ export const useLists = (socket: Socket | null) => {
 		return () => {
 			socket?.off("removedArticle", removeArticleListener);
 		};
-	}, [listsListener, socket]);
+	}, [removeArticleListener, socket]);
+
+	const newArticleListener = React.useCallback((newLists: GroceryList[]) => {
+		setLists((prevlists) => [...prevlists, ...newLists]);
+	}, []);
+
+	React.useEffect(() => {
+		socket?.on("updateList", newArticleListener);
+
+		return () => {
+			socket?.off("updateList", newArticleListener);
+		};
+	}, [newArticleListener, socket]);
+
+	const deleteListListener = React.useCallback((groceryListId: string) => {
+		setLists((prevlists) =>
+			prevlists.filter((list) => list.id !== groceryListId),
+		);
+	}, []);
+
+	React.useEffect(() => {
+		socket?.on("deleteList", deleteListListener);
+
+		return () => {
+			socket?.off("deleteList", deleteListListener);
+		};
+	}, [deleteListListener, socket]);
 
 	return lists;
 };

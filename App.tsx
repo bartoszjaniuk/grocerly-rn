@@ -6,11 +6,6 @@ import { AppProviders } from "./providers/AppProviders";
 import { Screens } from "./screens/Screens";
 
 export default function App() {
-	// useEffect(() => {
-	// 	const clear = async () => await jwtAsyncStorage.removeItem("ACCESS_TOKEN");
-	// 	clear();
-	// }, []);
-
 	return (
 		<>
 			<StatusBar style="auto" />

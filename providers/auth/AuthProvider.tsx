@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 		isAuthenticated: false,
 	});
 
-	console.log("AuthProvider(authState)", authState);
-
 	useEffect(() => {
 		const loadToken = async () => {
 			const token = await SecureStore.getItemAsync(StorageKeys.ACCESS_TOKEN);
@@ -37,8 +35,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 			token,
 			isAuthenticated: true,
 		});
-
-		console.log("AuthProvider(onLogin): token", token);
 
 		await SecureStore.setItemAsync(StorageKeys.ACCESS_TOKEN, token);
 	};

@@ -17,25 +17,30 @@ import { CATEGORIES } from "../../../../constants";
 import { getShadowByRadius } from "../../../../styles/styles";
 import { useAssignNewProductsToCategory } from "./hooks/useAssignNewProductsToCategory";
 import { categoriesEndpoints } from "../../../../api/categories";
+import { useCreateList } from "./hooks/useCreateList";
+import { useNavigateToCreatedList } from "./hooks/useNavigateToCreatedList";
 
 type FormData = {
 	listTitle: string;
-	articles: { title: string; category: string }[];
+	articles: { title: string; categoryId: string }[];
 };
 
 export const CreateListScreen = () => {
+	useNavigateToCreatedList();
+
 	const { saveProductsWithoutKnownCategory, assignProductToCategory } =
 		useAssignNewProductsToCategory();
 
-	const { control, handleSubmit, reset, getValues, setValue } =
-		useForm<FormData>({
-			defaultValues: {
-				listTitle: "",
-				articles: [{ title: "", category: "" }],
-			},
-		});
+	const { mutate } = useCreateList();
 
-	const { fields, append, remove, update } = useFieldArray({
+	const { control, handleSubmit, reset, setValue } = useForm<FormData>({
+		defaultValues: {
+			listTitle: "",
+			articles: [{ title: "", categoryId: "" }],
+		},
+	});
+
+	const { fields, append, remove } = useFieldArray({
 		control,
 		name: "articles",
 	});
@@ -44,9 +49,19 @@ export const CreateListScreen = () => {
 		const assignedProducts = assignProductToCategory(data.articles);
 		await categoriesEndpoints.updateCategoriesKeywords(assignedProducts);
 
+		const articles = data.articles.map((article) => ({
+			name: article.title,
+			categoryId: article.categoryId,
+		}));
+
+		await mutate({
+			name: data.listTitle,
+			articles,
+		});
+
 		reset({
 			listTitle: "",
-			articles: [{ title: "", category: "" }],
+			articles: [{ title: "", categoryId: "" }],
 		});
 	};
 
@@ -110,7 +125,7 @@ export const CreateListScreen = () => {
 														onChange(value);
 														if (category)
 															setValue(
-																`articles.${index}.category`,
+																`articles.${index}.categoryId`,
 																category.value,
 															);
 													}}
@@ -123,7 +138,7 @@ export const CreateListScreen = () => {
 									/>
 									<Controller
 										control={control}
-										name={`articles.${index}.category`}
+										name={`articles.${index}.categoryId`}
 										render={({ field }) => (
 											<RNPickerSelect
 												placeholder={{ label: "Wybierz kategorię", value: "" }}
@@ -161,7 +176,7 @@ export const CreateListScreen = () => {
 				</View>
 
 				<TouchableOpacity
-					onPress={() => append({ title: "", category: "" })}
+					onPress={() => append({ title: "", categoryId: "" })}
 					style={{
 						paddingTop: 24,
 						flexDirection: "row",
