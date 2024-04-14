@@ -1,6 +1,7 @@
+import * as SecureStore from "expo-secure-store";
 import axios from "axios";
 import { API_URL } from "../constants";
-import { jwtAsyncStorage } from "../service/jwtAsyncStorage";
+import { StorageKeys } from "../service/jwtAsyncStorage";
 
 export const api = axios.create({
 	baseURL: API_URL,
@@ -8,7 +9,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-	const token = await jwtAsyncStorage.getItem("ACCESS_TOKEN");
+	const token = await SecureStore.getItemAsync(StorageKeys.ACCESS_TOKEN);
 	if (token) config.headers.Authorization = `Bearer ${token}`;
 	return config;
 });

@@ -44,8 +44,8 @@ export const UserNavigationList = () => {
 									borderColor: "black",
 								}}
 							>
-								<Text style={{ fontSize: 12 }}>UTWÓRZ</Text>
-								<AntDesign name="plus" size={12} color="black" />
+								<Text style={{ fontSize: 14 }}>UTWÓRZ</Text>
+								<AntDesign name="plus" size={14} color="black" />
 							</Pressable>
 						);
 					},

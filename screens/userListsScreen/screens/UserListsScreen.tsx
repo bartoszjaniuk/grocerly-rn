@@ -4,9 +4,16 @@ import { CustomSwipeable } from "../../../shared/swipeable/Swipeable";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { ListsTabParamList } from "../UserNavigationList";
 import { useFetchUserLists } from "../hooks/useFetchUserLists";
+import { useWebSocket } from "../../../providers/WebSocketProvider";
+import { useLists } from "../hooks/ws/useLists";
 
 export const UserListsScreen = () => {
+	const { socket } = useWebSocket();
+	const lists = useLists(socket);
+	console.log("lists", { lists });
+
 	const { data, isLoading } = useFetchUserLists();
+	// console.log("DATA", { data });
 
 	const navigation = useNavigation<NavigationProp<ListsTabParamList>>();
 	const navigateToSingleList = (id: string) =>
@@ -19,7 +26,7 @@ export const UserListsScreen = () => {
 			</View>
 		);
 
-	if (!data)
+	if (!lists.length)
 		return (
 			<View>
 				<Text>Nie posiadasz jeszcze zadnej listy zakupów.</Text>
@@ -29,7 +36,7 @@ export const UserListsScreen = () => {
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={data}
+				data={lists}
 				keyExtractor={({ id }) => id}
 				renderItem={({ item: { articles, name, id } }) => (
 					<CustomSwipeable>

@@ -18,9 +18,9 @@ export const useArticles = (socket: Socket | null) => {
 	}, [articlesListener, socket]);
 
 	const removeArticleListener = React.useCallback(
-		(removedArticleId: string) => {
+		({ articleId }: { articleId: string }) => {
 			setArticles((articles) =>
-				articles.filter((article) => article.id !== removedArticleId),
+				articles.filter((article) => article.id !== articleId),
 			);
 		},
 		[],

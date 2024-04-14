@@ -11,6 +11,8 @@ import {
 	ListsTabParamList,
 	UserNavigationList,
 } from "../screens/userListsScreen/UserNavigationList";
+import { Pressable, Text } from "react-native";
+import { useAuth } from "../providers/auth/useAuth";
 
 export type TabsParamList = {
 	home: undefined;
@@ -22,12 +24,33 @@ export type TabsParamList = {
 const Tabs = createBottomTabNavigator<TabsParamList>();
 
 export const NavigationBottomTabs = () => {
+	const { onLogout } = useAuth();
 	return (
 		<Tabs.Navigator>
 			<Tabs.Screen
 				name="home"
 				component={HomeScreen}
 				options={{
+					headerRight: () => {
+						return (
+							<Pressable
+								onPress={onLogout}
+								style={{
+									marginRight: 10,
+									padding: 4,
+									paddingHorizontal: 8,
+									flexDirection: "row",
+									alignItems: "center",
+									gap: 2,
+									borderWidth: 1,
+									borderColor: "black",
+								}}
+							>
+								<Text style={{ fontSize: 14 }}>Wyloguj</Text>
+								{/* <AntDesign name="logout" size={12} color="black" /> */}
+							</Pressable>
+						);
+					},
 					headerShadowVisible: false,
 					headerTitle: "",
 					title: "Home",

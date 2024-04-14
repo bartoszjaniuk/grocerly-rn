@@ -15,19 +15,16 @@ import { CustomButton } from "../shared/customButton/CustomButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AuthStackParamList } from "../navigation/NavigationForUnauthorizedUser";
 import { loginUser } from "../auth/login";
-import { useAuth } from "../providers/AuthProvider";
+import { useAuth } from "../providers/auth/useAuth";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: Props) => {
-	const { onAuthenticate } = useAuth();
+	const { onLogin } = useAuth();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const handleLogin = async () => {
-		const token = await loginUser({ email, password });
-		onAuthenticate(token);
-	};
+	const handleLogin = async () => await onLogin?.({ email, password });
 
 	const navigateToRegister = () => {
 		navigation.navigate("Register");

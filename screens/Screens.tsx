@@ -2,15 +2,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import { NavigationBottomTabs } from "../navigation/NavigationBottomTabs";
 import { NavigationForUnauthorizedUser } from "../navigation/NavigationForUnauthorizedUser";
-import { useAuth } from "../providers/AuthProvider";
+import { useAuth } from "../providers/auth/useAuth";
 
 export const Screens = () => {
-	const { accessToken } = useAuth();
-	const isAuthorized = !!accessToken;
+	const { authState } = useAuth();
 	return (
 		<NavigationContainer>
-			{isAuthorized && <NavigationBottomTabs />}
-			{!isAuthorized && <NavigationForUnauthorizedUser />}
+			{authState?.isAuthenticated && <NavigationBottomTabs />}
+			{!authState?.isAuthenticated && <NavigationForUnauthorizedUser />}
 		</NavigationContainer>
 	);
 };

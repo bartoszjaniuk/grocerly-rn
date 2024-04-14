@@ -4,7 +4,6 @@ import { StyleSheet } from "react-native";
 import React, { useEffect } from "react";
 import { AppProviders } from "./providers/AppProviders";
 import { Screens } from "./screens/Screens";
-import { jwtAsyncStorage } from "./service/jwtAsyncStorage";
 
 export default function App() {
 	// useEffect(() => {
