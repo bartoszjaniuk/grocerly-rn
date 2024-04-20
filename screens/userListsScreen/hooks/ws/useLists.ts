@@ -1,29 +1,18 @@
 import React from "react";
-import { Socket } from "socket.io-client";
 import { GroceryList } from "../../../../api/grocery";
+import { useFetchFromWs } from "../../../../shared/hooks/useFetchFromWs";
 
-export const useLists = (socket: Socket | null) => {
-	const [lists, setLists] = React.useState<GroceryList[]>([]);
-
-	const listsListener = React.useCallback((lists: GroceryList[]) => {
-		setLists((prevlists) => [...prevlists, ...lists]);
-	}, []);
+export const useLists = () => {
+	const { data, isLoading, setData, socket } =
+		useFetchFromWs<GroceryList>("receiveUserLists");
 
 	React.useEffect(() => {
 		if (socket) socket.emit("getUserLists");
 
 		return () => {
-			setLists([]);
+			setData([]);
 		};
 	}, [socket]);
-
-	React.useEffect(() => {
-		socket?.on("receiveUserLists", listsListener);
-
-		return () => {
-			socket?.off("receiveUserLists", listsListener);
-		};
-	}, [listsListener, socket]);
 
 	const removeArticleListener = React.useCallback(
 		({
@@ -33,7 +22,7 @@ export const useLists = (socket: Socket | null) => {
 			articleId: string;
 			groceryListId: string;
 		}) => {
-			setLists((prevLists) => {
+			setData((prevLists) => {
 				const listToUpdate = prevLists.find(
 					(list) => list.id === groceryListId,
 				);
@@ -60,7 +49,7 @@ export const useLists = (socket: Socket | null) => {
 	}, [removeArticleListener, socket]);
 
 	const newArticleListener = React.useCallback((newLists: GroceryList[]) => {
-		setLists((prevlists) => [...prevlists, ...newLists]);
+		setData((prevlists) => [...prevlists, ...newLists]);
 	}, []);
 
 	React.useEffect(() => {
@@ -72,7 +61,7 @@ export const useLists = (socket: Socket | null) => {
 	}, [newArticleListener, socket]);
 
 	const deleteListListener = React.useCallback((groceryListId: string) => {
-		setLists((prevlists) =>
+		setData((prevlists) =>
 			prevlists.filter((list) => list.id !== groceryListId),
 		);
 	}, []);
@@ -85,5 +74,5 @@ export const useLists = (socket: Socket | null) => {
 		};
 	}, [deleteListListener, socket]);
 
-	return lists;
+	return { isLoading, data, socket };
 };

@@ -1,15 +1,22 @@
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, Pressable } from "react-native";
+import { ListsTabParamList } from "../../../userListsScreen/UserNavigationList";
 export const Categories = () => {
+	const navigation = useNavigation<NavigationProp<ListsTabParamList>>();
+
+	const handleNavigateToCategories = () => navigation.navigate("categories");
 	return (
-		<View style={styles.wrapper}>
-			<Text style={styles.heading5}>Sprawdź</Text>
-			<Text style={styles.heading5}>kategorie</Text>
-			<Image
-				style={styles.image}
-				source={require("../../../../assets/undraw_breakfast_psiw.png")}
-			/>
-		</View>
+		<Pressable onPress={handleNavigateToCategories}>
+			<View style={styles.wrapper}>
+				<Text style={styles.heading5}>Sprawdź</Text>
+				<Text style={styles.heading5}>kategorie</Text>
+				<Image
+					style={styles.image}
+					source={require("../../../../assets/undraw_breakfast_psiw.png")}
+				/>
+			</View>
+		</Pressable>
 	);
 };
 

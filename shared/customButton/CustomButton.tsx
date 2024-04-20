@@ -1,11 +1,19 @@
 import React from "react";
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import {
+	View,
+	Pressable,
+	Text,
+	StyleSheet,
+	ViewStyle,
+	StyleProp,
+} from "react-native";
 
 type CustomButtonProps = {
 	onPress: VoidFunction;
 	title: string;
 	isInverted?: boolean;
 	isFullWidth?: boolean;
+	otherStyles?: StyleProp<ViewStyle>;
 };
 
 const getStyles = (isInverted: boolean) =>
@@ -16,6 +24,7 @@ export const CustomButton = ({
 	title,
 	isInverted = false,
 	isFullWidth = false,
+	otherStyles,
 }: CustomButtonProps) => {
 	const styles = getStyles(isInverted);
 
@@ -27,6 +36,7 @@ export const CustomButton = ({
 					styles.btn,
 					pressed ? styles.btnOnPressed : null,
 					isFullWidth ? { width: "100%", alignItems: "center" } : null,
+					otherStyles,
 				]}
 			>
 				{({ pressed }) => (

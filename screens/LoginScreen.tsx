@@ -6,7 +6,6 @@ import {
 	KeyboardAvoidingView,
 	Keyboard,
 	TouchableWithoutFeedback,
-	Button,
 	Pressable,
 } from "react-native";
 import { CustomInput } from "../shared/customInput/CustomInput";
@@ -14,13 +13,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { CustomButton } from "../shared/customButton/CustomButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { AuthStackParamList } from "../navigation/NavigationForUnauthorizedUser";
-import { loginUser } from "../auth/login";
-import { useAuth } from "../providers/auth/useAuth";
+import { useAuthV2 } from "../providers/authV2/useAuthV2";
 
 type Props = StackScreenProps<AuthStackParamList, "Login">;
 
 export const LoginScreen = ({ navigation }: Props) => {
-	const { onLogin } = useAuth();
+	const { onLogin } = useAuthV2();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");

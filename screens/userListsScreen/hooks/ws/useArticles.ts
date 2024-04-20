@@ -1,25 +1,14 @@
 import React from "react";
-import { Socket } from "socket.io-client";
 import { Article } from "../../../../api/grocery";
+import { useFetchFromWs } from "../../../../shared/hooks/useFetchFromWs";
 
-export const useArticles = (socket: Socket | null) => {
-	const [articles, setArticles] = React.useState<Article[]>([]);
-
-	const articlesListener = React.useCallback((articles: Article[]) => {
-		setArticles((prevArticles) => [...prevArticles, ...articles]);
-	}, []);
-
-	React.useEffect(() => {
-		socket?.on("receiveList", articlesListener);
-
-		return () => {
-			socket?.off("receiveList", articlesListener);
-		};
-	}, [articlesListener, socket]);
+export const useArticles = () => {
+	const { data, isLoading, socket, setData } =
+		useFetchFromWs<Article>("receiveList");
 
 	const removeArticleListener = React.useCallback(
 		({ articleId }: { articleId: string }) => {
-			setArticles((articles) =>
+			setData((articles) =>
 				articles.filter((article) => article.id !== articleId),
 			);
 		},
@@ -32,7 +21,7 @@ export const useArticles = (socket: Socket | null) => {
 		return () => {
 			socket?.off("removedArticle", removeArticleListener);
 		};
-	}, [articlesListener, socket]);
+	}, [removeArticleListener, socket]);
 
-	return articles;
+	return { data, isLoading };
 };

@@ -12,7 +12,7 @@ import {
 	UserNavigationList,
 } from "../screens/userListsScreen/UserNavigationList";
 import { Pressable, Text } from "react-native";
-import { useAuth } from "../providers/auth/useAuth";
+import { useAuthV2 } from "../providers/authV2/useAuthV2";
 
 export type TabsParamList = {
 	home: undefined;
@@ -24,7 +24,7 @@ export type TabsParamList = {
 const Tabs = createBottomTabNavigator<TabsParamList>();
 
 export const NavigationBottomTabs = () => {
-	const { onLogout } = useAuth();
+	const { onLogout } = useAuthV2();
 	return (
 		<Tabs.Navigator>
 			<Tabs.Screen
@@ -47,7 +47,6 @@ export const NavigationBottomTabs = () => {
 								}}
 							>
 								<Text style={{ fontSize: 14 }}>Wyloguj</Text>
-								{/* <AntDesign name="logout" size={12} color="black" /> */}
 							</Pressable>
 						);
 					},

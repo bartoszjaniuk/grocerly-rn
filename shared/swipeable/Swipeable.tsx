@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { PropsWithChildren, ReactNode, useRef } from "react";
 import {
 	Text,
 	View,
@@ -24,7 +24,7 @@ export const renderLeftActions = (
 		extrapolate: "clamp",
 	});
 	return (
-		<RectButton style={styles.leftAction} onPress={() => Alert.alert("elo")}>
+		<RectButton style={styles.leftAction}>
 			<Text>Edytuj listę</Text>
 		</RectButton>
 	);
@@ -49,6 +49,7 @@ const renderRightActions = (
 
 const handleSwipe = (
 	direction: "left" | "right",
+	onSwipeEnd: VoidFunction,
 	swipeableOpen?: {
 		onSwipeLeft?: VoidFunction;
 		onSwipeRight?: VoidFunction;
@@ -56,6 +57,7 @@ const handleSwipe = (
 ) => {
 	if (direction === "right") swipeableOpen?.onSwipeRight?.();
 	if (direction === "left") swipeableOpen?.onSwipeLeft?.();
+	onSwipeEnd();
 };
 
 type Props = {
@@ -69,8 +71,12 @@ export const CustomSwipeable = ({
 	children,
 	swipeableOpen,
 }: PropsWithChildren<Props>) => {
+	const swipeableRef = useRef<Swipeable>(null);
+	const closeSwipeable = () => swipeableRef?.current?.close();
+
 	return (
 		<Swipeable
+			ref={swipeableRef}
 			friction={2}
 			leftThreshold={80}
 			rightThreshold={41}
@@ -78,7 +84,9 @@ export const CustomSwipeable = ({
 				renderLeftActions(progress, dragAnimatedValue, swipeable)
 			}
 			renderRightActions={renderRightActions}
-			onSwipeableOpen={(direction) => handleSwipe(direction, swipeableOpen)}
+			onSwipeableOpen={(direction) =>
+				handleSwipe(direction, closeSwipeable, swipeableOpen)
+			}
 		>
 			{children}
 		</Swipeable>

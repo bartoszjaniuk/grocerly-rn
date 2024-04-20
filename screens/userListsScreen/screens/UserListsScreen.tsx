@@ -3,16 +3,10 @@ import { Text, View, StyleSheet, FlatList, Pressable } from "react-native";
 import { CustomSwipeable } from "../../../shared/swipeable/Swipeable";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { ListsTabParamList } from "../UserNavigationList";
-import { useFetchUserLists } from "../hooks/useFetchUserLists";
-import { useWebSocket } from "../../../providers/WebSocketProvider";
 import { useLists } from "../hooks/ws/useLists";
 
 export const UserListsScreen = () => {
-	const { socket } = useWebSocket();
-	const lists = useLists(socket);
-
-	// TODO: GET RID OF THAT AND ADD LOADING INTO WS
-	const { data, isLoading } = useFetchUserLists();
+	const { data: lists, isLoading, socket } = useLists();
 
 	const navigation = useNavigation<NavigationProp<ListsTabParamList>>();
 
@@ -21,6 +15,9 @@ export const UserListsScreen = () => {
 
 	const onSwipeRight = (groceryListId: string) =>
 		socket?.emit("removeList", groceryListId);
+
+	const onSwipeLeft = (groceryListId: string) =>
+		navigation.navigate("invite", { id: groceryListId });
 
 	if (isLoading)
 		return (
@@ -43,7 +40,10 @@ export const UserListsScreen = () => {
 				keyExtractor={({ id }) => id}
 				renderItem={({ item: { articles, name, id } }) => (
 					<CustomSwipeable
-						swipeableOpen={{ onSwipeRight: () => onSwipeRight(id) }}
+						swipeableOpen={{
+							onSwipeRight: () => onSwipeRight(id),
+							onSwipeLeft: () => onSwipeLeft(id),
+						}}
 					>
 						<Pressable onPress={() => navigateToSingleList(id)}>
 							<View style={styles.wrapper}>

@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Socket, io } from "socket.io-client";
 import { API_URL } from "../constants";
-import { useAuth } from "./auth/useAuth";
+import { useAuthV2 } from "./authV2/useAuthV2";
 
 type WebSocketState = {
 	socket: Socket | null;
@@ -27,7 +27,7 @@ export const useWebSocket = () => {
 };
 
 export const WebSocketProvider = ({ children }: PropsWithChildren) => {
-	const { authState } = useAuth();
+	const { authState } = useAuthV2();
 
 	const [isFetching, setIsFetching] = useState(false);
 	const [socket, setSocket] = useState<Socket | null>(null);
@@ -39,7 +39,9 @@ export const WebSocketProvider = ({ children }: PropsWithChildren) => {
 		const newSocket = io(API_URL, {
 			withCredentials: true,
 			extraHeaders: {
-				authorization: authState.token ? `Bearer ${authState.token}` : "",
+				authorization: authState.accessToken
+					? `Bearer ${authState.accessToken}`
+					: "",
 			},
 		});
 
@@ -49,7 +51,7 @@ export const WebSocketProvider = ({ children }: PropsWithChildren) => {
 		return () => {
 			newSocket.close();
 		};
-	}, [isFetching, authState?.isAuthenticated]);
+	}, [isFetching, authState?.isAuthenticated, authState.accessToken]);
 
 	const value = useMemo(
 		() => ({

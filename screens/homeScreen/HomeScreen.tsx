@@ -6,17 +6,8 @@ import { Main } from "./components/main/Main";
 import { Categories } from "./components/categories/Categories";
 import { CreateList } from "./components/createList/CreateList";
 import { Invites } from "./components/invites/Invites";
-import { jwtAsyncStorage } from "../../service/jwtAsyncStorage";
 
 export const HomeScreen = () => {
-	// useEffect(() => {
-	// 	const clearStorage = async () => {
-	// 		await jwtAsyncStorage.removeItem("ACCESS_TOKEN");
-	// 	};
-
-	// 	clearStorage();
-	// }, []);
-
 	return (
 		<View style={styles.container}>
 			<Card>

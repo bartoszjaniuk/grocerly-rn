@@ -12,11 +12,11 @@ type Props = StackScreenProps<ListsTabParamList, "list">;
 
 export const SingleList = ({ navigation, route }: Props) => {
 	const groceryListId = route.params.id;
-	const { data, error, isLoading } = useSingleList(groceryListId);
+	const { data } = useSingleList(groceryListId);
 	const { socket } = useWebSocket();
 	useJoinToList(socket, groceryListId);
 
-	const articles = useArticles(socket);
+	const { data: articles, isLoading } = useArticles();
 
 	const onSwipeRight = (articleId: string) =>
 		socket?.emit("removeArticleFromList", { groceryListId, articleId });

@@ -19,6 +19,7 @@ import { useAssignNewProductsToCategory } from "./hooks/useAssignNewProductsToCa
 import { categoriesEndpoints } from "../../../../api/categories";
 import { useCreateList } from "./hooks/useCreateList";
 import { useNavigateToCreatedList } from "./hooks/useNavigateToCreatedList";
+import { useAxios } from "../../../../providers/axios/useAxios";
 
 type FormData = {
 	listTitle: string;
@@ -26,6 +27,7 @@ type FormData = {
 };
 
 export const CreateListScreen = () => {
+	const { authAxios } = useAxios();
 	useNavigateToCreatedList();
 
 	const { saveProductsWithoutKnownCategory, assignProductToCategory } =
@@ -47,7 +49,10 @@ export const CreateListScreen = () => {
 
 	const onSubmitForm = async (data: FormData) => {
 		const assignedProducts = assignProductToCategory(data.articles);
-		await categoriesEndpoints.updateCategoriesKeywords(assignedProducts);
+		await categoriesEndpoints.updateCategoriesKeywords(
+			authAxios,
+			assignedProducts,
+		);
 
 		const articles = data.articles.map((article) => ({
 			name: article.title,

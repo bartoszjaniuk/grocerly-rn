@@ -7,14 +7,20 @@ import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { CreateListScreen } from "./screens/createListScreen/CreateListScreen";
 import { SingleList } from "./screens/singleList/SingleList";
+import { InviteToListScreen } from "./screens/inviteToList/InviteToListScreen";
+import { CategoriesScreen } from "./screens/categoriesScreen/CategoriesScreen";
 
 export type ListsTabParamList = {
 	home: undefined;
 	create: undefined;
+	invite: {
+		id: string;
+	};
 	addArticles: undefined;
 	list: {
 		id: string;
 	};
+	categories: undefined;
 };
 
 const Stack = createStackNavigator<ListsTabParamList>();
@@ -44,8 +50,8 @@ export const UserNavigationList = () => {
 									borderColor: "black",
 								}}
 							>
-								<Text style={{ fontSize: 14 }}>UTWÓRZ</Text>
-								<AntDesign name="plus" size={14} color="black" />
+								<Text style={{ fontSize: 14 }}>Utwórz</Text>
+								{/* <AntDesign name="plus" size={14} color="black" /> */}
 							</Pressable>
 						);
 					},
@@ -57,9 +63,20 @@ export const UserNavigationList = () => {
 				options={{ title: "Tworzenie listy" }}
 			/>
 			<Stack.Screen
+				name="invite"
+				component={InviteToListScreen}
+				options={{ title: "Zaproś do listy współdzielonej" }}
+			/>
+			<Stack.Screen
 				name="list"
 				component={SingleList}
 				options={{ title: "Lista" }}
+			/>
+
+			<Stack.Screen
+				name="categories"
+				component={CategoriesScreen}
+				options={{ title: "Kategorie" }}
 			/>
 			{/* TODO: NAVIAGTION */}
 			<Stack.Screen name="addArticles" component={AddArticlesToListScreen} />
