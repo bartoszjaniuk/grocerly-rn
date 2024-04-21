@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Text,
+	FlatList,
+	ActivityIndicator,
+} from "react-native";
 import { COLORS } from "../../../../styles/styles";
 import { useInvitations } from "../../hooks/useInvitations";
 import { CustomButton } from "../../../../shared/customButton/CustomButton";
@@ -14,7 +20,7 @@ export const Invites = () => {
 			</View>
 
 			<View style={styles.content}>
-				{isLoading && <Text>Loading ...</Text>}
+				{isLoading && <ActivityIndicator size="large" />}
 				{!isLoading && error && <Text>error goes here</Text>}
 				{!data?.length && (
 					<View style={{ padding: 12 }}>

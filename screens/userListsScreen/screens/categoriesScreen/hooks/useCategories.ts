@@ -13,7 +13,7 @@ export const useCategories = () => {
 			setIsLoading(true);
 			try {
 				const data = await categoriesEndpoints.getCategories(authAxios);
-				setData(data);
+				setData(data.data);
 			} catch (error) {
 				setError(error);
 			} finally {

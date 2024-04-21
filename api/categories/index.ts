@@ -18,8 +18,8 @@ const updateCategoriesKeywords = async (
 	await api.put(`${API_URL}/grocery/category/keywords`, payload);
 };
 
-const getCategories = async (api: AxiosInstance): Promise<Category[]> => {
-	return await api.get(`${API_URL}/grocery/categories`);
+const getCategories = async (api: AxiosInstance) => {
+	return await api.get<Category[]>(`${API_URL}/grocery/categories`);
 };
 
 export const categoriesEndpoints = { updateCategoriesKeywords, getCategories };

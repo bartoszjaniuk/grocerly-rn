@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet, FlatList, Pressable } from "react-native";
+import {
+	Text,
+	View,
+	StyleSheet,
+	FlatList,
+	Pressable,
+	ActivityIndicator,
+} from "react-native";
 import { CustomSwipeable } from "../../../shared/swipeable/Swipeable";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { ListsTabParamList } from "../UserNavigationList";
@@ -21,8 +28,8 @@ export const UserListsScreen = () => {
 
 	if (isLoading)
 		return (
-			<View>
-				<Text>Loading...</Text>
+			<View style={{ flex: 1, justifyContent: "center" }}>
+				<ActivityIndicator size="large" />
 			</View>
 		);
 

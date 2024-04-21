@@ -1,6 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useEffect } from "react";
-import { FlatList, Text, View, StyleSheet, Alert } from "react-native";
+import {
+	FlatList,
+	Text,
+	View,
+	StyleSheet,
+	Alert,
+	ActivityIndicator,
+} from "react-native";
 import { ListsTabParamList } from "../../UserNavigationList";
 import { useSingleList } from "../../hooks/useSingleList";
 import { CustomSwipeable } from "../../../../shared/swipeable/Swipeable";
@@ -28,8 +35,8 @@ export const SingleList = ({ navigation, route }: Props) => {
 	}, [data]);
 	if (isLoading)
 		return (
-			<View>
-				<Text>Loading...</Text>
+			<View style={{ flex: 1, justifyContent: "center" }}>
+				<ActivityIndicator size="large" />
 			</View>
 		);
 	if (!articles.length)

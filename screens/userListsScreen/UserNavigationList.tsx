@@ -30,48 +30,50 @@ export const UserNavigationList = () => {
 
 	return (
 		<Stack.Navigator>
-			<Stack.Screen
-				name="home"
-				component={UserListsScreen}
-				options={{
-					title: "Listy",
-					headerRight: () => {
-						return (
-							<Pressable
-								onPress={() => navigation.navigate("create")}
-								style={{
-									marginRight: 10,
-									padding: 4,
-									paddingHorizontal: 8,
-									flexDirection: "row",
-									alignItems: "center",
-									gap: 2,
-									borderWidth: 1,
-									borderColor: "black",
-								}}
-							>
-								<Text style={{ fontSize: 14 }}>Utwórz</Text>
-								{/* <AntDesign name="plus" size={14} color="black" /> */}
-							</Pressable>
-						);
-					},
-				}}
-			/>
-			<Stack.Screen
-				name="create"
-				component={CreateListScreen}
-				options={{ title: "Tworzenie listy" }}
-			/>
-			<Stack.Screen
-				name="invite"
-				component={InviteToListScreen}
-				options={{ title: "Zaproś do listy współdzielonej" }}
-			/>
-			<Stack.Screen
-				name="list"
-				component={SingleList}
-				options={{ title: "Lista" }}
-			/>
+			<Stack.Group>
+				<Stack.Screen
+					name="home"
+					component={UserListsScreen}
+					options={{
+						title: "Listy",
+						headerRight: () => {
+							return (
+								<Pressable
+									onPress={() => navigation.navigate("create")}
+									style={{
+										marginRight: 10,
+										padding: 4,
+										paddingHorizontal: 8,
+										flexDirection: "row",
+										alignItems: "center",
+										gap: 2,
+										borderWidth: 1,
+										borderColor: "black",
+									}}
+								>
+									<Text style={{ fontSize: 14 }}>Utwórz</Text>
+								</Pressable>
+							);
+						},
+					}}
+				/>
+				<Stack.Screen
+					name="create"
+					component={CreateListScreen}
+					options={{ title: "Tworzenie listy" }}
+				/>
+
+				<Stack.Screen
+					name="list"
+					component={SingleList}
+					options={{ title: "Lista" }}
+				/>
+				<Stack.Screen
+					name="invite"
+					component={InviteToListScreen}
+					options={{ title: "Zaproś do listy współdzielonej" }}
+				/>
+			</Stack.Group>
 
 			<Stack.Screen
 				name="categories"

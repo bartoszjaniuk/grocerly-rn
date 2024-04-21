@@ -5,7 +5,7 @@ import { NavigationForUnauthorizedUser } from "../navigation/NavigationForUnauth
 import * as SecureStore from "expo-secure-store";
 import { StorageKeys } from "../service/jwtAsyncStorage";
 import { useAuthV2 } from "../providers/authV2/useAuthV2";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 export const Screens = () => {
 	const { authState, setAuthState } = useAuthV2();
@@ -42,8 +42,8 @@ export const Screens = () => {
 
 	if (appState === "loading") {
 		return (
-			<View>
-				<Text>Loading...</Text>
+			<View style={{ flex: 1, justifyContent: "center" }}>
+				<ActivityIndicator size="large" />
 			</View>
 		);
 	}
