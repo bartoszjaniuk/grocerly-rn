@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import React from "react";
-import { HomeScreen } from "../screens/homeScreen/HomeScreen";
+
 import { JoinToListScreen } from "../screens/JoinToListScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../styles/styles";
@@ -13,6 +13,7 @@ import {
 } from "../screens/userListsScreen/UserNavigationList";
 import { Pressable, Text } from "react-native";
 import { useAuthV2 } from "../providers/authV2/useAuthV2";
+import { HomeNavigationStack } from "../screens/homeScreen/HomeNavigationStack";
 
 export type TabsParamList = {
 	home: undefined;
@@ -24,35 +25,14 @@ export type TabsParamList = {
 const Tabs = createBottomTabNavigator<TabsParamList>();
 
 export const NavigationBottomTabs = () => {
-	const { onLogout } = useAuthV2();
 	return (
 		<Tabs.Navigator>
 			<Tabs.Screen
 				name="home"
-				component={HomeScreen}
+				component={HomeNavigationStack}
 				options={{
-					headerRight: () => {
-						return (
-							<Pressable
-								onPress={onLogout}
-								style={{
-									marginRight: 10,
-									padding: 4,
-									paddingHorizontal: 8,
-									flexDirection: "row",
-									alignItems: "center",
-									gap: 2,
-									borderWidth: 1,
-									borderColor: "black",
-								}}
-							>
-								<Text style={{ fontSize: 14 }}>Wyloguj</Text>
-							</Pressable>
-						);
-					},
-					headerShadowVisible: false,
-					headerTitle: "",
 					title: "Home",
+					headerShown: false,
 					tabBarActiveTintColor: COLORS.main,
 					tabBarIcon: ({ color, size, focused }) => (
 						<AntDesign
@@ -80,7 +60,7 @@ export const NavigationBottomTabs = () => {
 					),
 				}}
 			/>
-			<Tabs.Screen
+			{/* <Tabs.Screen
 				name="joinToList"
 				component={JoinToListScreen}
 				options={{
@@ -110,7 +90,7 @@ export const NavigationBottomTabs = () => {
 						/>
 					),
 				}}
-			/>
+			/> */}
 		</Tabs.Navigator>
 	);
 };

@@ -3,17 +3,20 @@ import React from "react";
 import { Text, Pressable } from "react-native";
 import { AddArticlesToListScreen } from "./screens/AddArticlesToList";
 import { UserListsScreen } from "./screens/UserListsScreen";
-import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { CreateListScreen } from "./screens/createListScreen/CreateListScreen";
 import { SingleList } from "./screens/singleList/SingleList";
 import { InviteToListScreen } from "./screens/inviteToList/InviteToListScreen";
 import { CategoriesScreen } from "./screens/categoriesScreen/CategoriesScreen";
+import { UpdateListScreen } from "./screens/updateListScreen/UpdateListScreen";
 
 export type ListsTabParamList = {
 	home: undefined;
 	create: undefined;
 	invite: {
+		id: string;
+	};
+	updateList: {
 		id: string;
 	};
 	addArticles: undefined;
@@ -58,6 +61,12 @@ export const UserNavigationList = () => {
 					}}
 				/>
 				<Stack.Screen
+					name="updateList"
+					component={UpdateListScreen}
+					options={{ title: "Aktualizacja listy", presentation: "modal" }}
+				/>
+
+				<Stack.Screen
 					name="create"
 					component={CreateListScreen}
 					options={{ title: "Tworzenie listy" }}
@@ -66,7 +75,9 @@ export const UserNavigationList = () => {
 				<Stack.Screen
 					name="list"
 					component={SingleList}
-					options={{ title: "Lista" }}
+					options={{
+						title: "Lista",
+					}}
 				/>
 				<Stack.Screen
 					name="invite"

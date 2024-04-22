@@ -7,6 +7,7 @@ export type Article = {
 	category: {
 		id: string;
 		label: string;
+		color: string;
 	};
 };
 

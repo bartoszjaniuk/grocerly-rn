@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from "react";
 import { WebSocketProvider } from "./WebSocketProvider";
-import { AuthProvider } from "./auth/AuthProvider";
 import { AuthProviderV2 } from "./authV2/AuthProviderV2";
 import { AxiosProvider } from "./axios/AxiosProvider";
+import { ListProvider } from "./list/List";
 
 export const AppProviders = ({ children }: PropsWithChildren) => {
 	return (
@@ -11,7 +11,9 @@ export const AppProviders = ({ children }: PropsWithChildren) => {
 		// </AuthProvider>
 		<AuthProviderV2>
 			<AxiosProvider>
-				<WebSocketProvider>{children}</WebSocketProvider>
+				<WebSocketProvider>
+					<ListProvider>{children}</ListProvider>
+				</WebSocketProvider>
 			</AxiosProvider>
 		</AuthProviderV2>
 	);

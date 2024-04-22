@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Article } from "../../../../api/grocery";
-import { useFetchFromWs } from "../../../../shared/hooks/useFetchFromWs";
+import { useListFromContext } from "../../../../providers/list/List";
+import { useWebSocket } from "../../../../providers/WebSocketProvider";
 
 export const useArticles = () => {
-	const { data, isLoading, socket, setData } =
-		useFetchFromWs<Article>("receiveList");
+	const { socket } = useWebSocket();
+	const [isLoading, setIsLoading] = useState(false);
+	const { articles, setArticles } = useListFromContext();
+
+	const dataListener = React.useCallback((newData: Article[]) => {
+		setArticles((prevData) => [...prevData, ...newData]);
+		setIsLoading(false);
+	}, []);
+
+	React.useEffect(() => {
+		if (articles.length > 0) return;
+		setIsLoading(true);
+		socket?.on("receiveList", dataListener);
+
+		return () => {
+			socket?.off("receiveList", dataListener);
+		};
+	}, [dataListener, socket]);
 
 	const removeArticleListener = React.useCallback(
 		({ articleId }: { articleId: string }) => {
-			setData((articles) =>
+			setArticles((articles) =>
 				articles.filter((article) => article.id !== articleId),
 			);
 		},
@@ -23,5 +40,5 @@ export const useArticles = () => {
 		};
 	}, [removeArticleListener, socket]);
 
-	return { data, isLoading };
+	return { articles, isLoading };
 };

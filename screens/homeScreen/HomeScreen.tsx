@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { COLORS } from "../../styles/styles";
 import { Card } from "./components/card/Card";
 import { Main } from "./components/main/Main";

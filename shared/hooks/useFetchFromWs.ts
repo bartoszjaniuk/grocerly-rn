@@ -13,6 +13,7 @@ export const useFetchFromWs = <T>(wsTargetName: string) => {
 	}, []);
 
 	React.useEffect(() => {
+		if (data.length > 0) return;
 		setIsLoading(true);
 		socket?.on(wsTargetName, dataListener);
 

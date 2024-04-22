@@ -8,6 +8,7 @@ type UpdateCategoriesKeywordsPayload = {
 export type Category = {
 	id: string;
 	label: string;
+	color: string;
 	keywords: string[];
 };
 
